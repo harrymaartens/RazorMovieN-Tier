@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RazorMovie.DataAccess.Data;
+using RazorPagesMovie.Models;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,13 @@ CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 CultureInfo.CurrentCulture = cultureInfo;
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
